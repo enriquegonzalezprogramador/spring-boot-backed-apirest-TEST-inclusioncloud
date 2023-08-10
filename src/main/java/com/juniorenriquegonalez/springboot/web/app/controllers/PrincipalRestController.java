@@ -44,13 +44,21 @@ public class PrincipalRestController {
 	        produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> create( @RequestBody Map<String, Object> valoresData) {
 		
+		Entrada values = null;
+		Map<String, Object> response = new HashMap<>();
 		Entrada entrada = new Entrada();
+		
+		if (valoresData.get("x") instanceof Integer && 
+				valoresData.get("y") instanceof Integer && valoresData.get("n") instanceof Integer) {
+			
 		entrada.setX((int) valoresData.get("x"));
 		entrada.setY((int) valoresData.get("y"));
 		entrada.setN((int) valoresData.get("n"));
 		
-		Entrada values = null;
-		Map<String, Object> response = new HashMap<>();
+		} else {
+			response.put("mensaje", "Todos los valores ingresados tienen que ser numericos");
+		}
+		
 		
 		try {
 			values = entradaService.save(entrada);
